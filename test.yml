@@ -1,0 +1,15 @@
+version: "0.0.1"
+name: "My SDK"
+constants:
+  - CENTS_TO_DOLLAR:
+    type: "string"
+    value: "Hello World"
+    namespace: "My"
+  - EXCHANGE_RATE:
+    type: "float"
+    value: 0.001
+enums:
+  - EXCHANGE_RATE_TYPE:
+    type: "str"
+    values: [{ name: "DOLLARS", value: "$"},
+             { name: "CENTS", value: "¢"}]
