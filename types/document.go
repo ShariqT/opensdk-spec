@@ -5,8 +5,8 @@ type SDKDocument struct {
 	Name string `mapstructure:"name"`
 	Constants []ConstantVar	`mapstructure:"constants"`
 	Enums []Enum `mapstructure:"enums"`
-	// Functions []Function `mapstructure:"functions"`
-	// Classes []Class `mapstructure:"classes"`
-	// Interfaces []Interface `mapstructure:"interfaces"`
-	// Errors []Error `mapstructure:"errors"`
+	Functions []Function `mapstructure:"functions"`
+	Classes []Class `mapstructure:"classes"`
+	Interfaces []Interface `mapstructure:"interfaces"`
+	Errors []Error `mapstructure:"errors"`
 }

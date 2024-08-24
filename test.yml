@@ -13,3 +13,80 @@ enums:
     type: "str"
     values: [{ name: "DOLLARS", value: "$"},
              { name: "CENTS", value: "¢"}]
+functions:
+  - getExchangeRate:
+    description: "Get the exchange rate between two currencies"
+    namespace: mysdk.functions.exchange
+    params:
+      - type: "str"
+        name: "currency"
+        description: "The currency to convert from"
+      - type: "str"
+        name: "toCurrency"
+        description: "The currency to convert to"
+      - type: "int"
+        name: "amount"
+        description: "The amount to convert"
+    returns:
+      - type: "float"
+        description: "The converted amount"
+    onfailure: ["errors#RateBookDoesNotExist"]
+  - convertDollarsToCents:
+    description: "Convert dollars to cents"
+    namespace: mysdk.functions.exchange.utils
+    params:
+      - type: "float"
+        name: "dollars"
+        description: "The dollars to convert"
+    returns:
+      - type: "int"
+        description: "The cents"
+classes:
+  - RateBook:
+    description: "A book of exchange rates"
+    namespace: mysdk.classes.rates
+    implements: ["interfaces#IRateBook"]
+    inherits: ["classes#Base"]
+    properties:
+      - type: "str"
+        name: "currency"
+        description: "The currency"
+      - type: "float"
+        name: "rate"
+        description: "The rate"
+    methods:
+      - getRate:
+        description: "Get the rate"
+        params:
+          - type: "str"
+            name: "currency"
+            description: "The currency to get the rate for"
+        returns:
+          - type: "float"
+            description: "The rate"
+      - getCurrencyType:
+        description: Gets the type of the currency
+        params:
+          - type: "str"
+            name: "currency"
+            description: "The currency to set the rate for"
+        returns:
+          - link: "enums#EXCHANGE_RATE_TYPE"
+interfaces:
+  - IRateBook:
+    description: "Interface for rate books"
+    namespace: mysdk.interfaces.rates
+    methods:
+      - getRate:
+        description: "Get the rate"
+        params:
+          - type: "str"
+            name: "currency"
+            description: "The currency to get the rate for"
+        returns:
+          - type: "float"
+errors:
+  - RateBookDoesNotExist:
+    description: "The rate book does not exist"
+    namespace: mysdk.errors.rates
+    message: "The rate book does not exist"

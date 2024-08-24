@@ -2,6 +2,7 @@ package cmd
 
 import(
 	"fmt"
+	"encoding/json"
 	"os"
 	"github.com/spf13/cobra"
 
@@ -36,6 +37,8 @@ var generateCmd = &cobra.Command{
 			fmt.Println("mapstructure.Decode failed:", err)
 			return
 		}
-		fmt.Printf("%+v\n", sdkDocument)
+		s, _ := json.MarshalIndent(sdkDocument, "", "  ")
+		fmt.Print(string(s))
+		// fmt.Printf("%+v\n", sdkDocument)
 	},
 }
