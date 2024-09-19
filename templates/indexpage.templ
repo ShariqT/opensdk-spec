@@ -1,0 +1,23 @@
+package templates
+
+import "github.com/shariqtorres/opensdk-server/types"
+
+
+templ IndexPage(sdkDocument types.SDKDocument) {
+  <div class="grid">
+    <div class="row">
+      <div class="col">
+        <h1>{ sdkDocument.Name }</h1>
+        <p>{ sdkDocument.Description }</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion" id="accordionExample">
+      @constantsAccordianItem(sdkDocument.Constants)
+      @classAccordianItem(sdkDocument.Classes)
+      @functionsAccordianItem(sdkDocument.Functions)
+      @interfacesAccordianItem(sdkDocument.Interfaces)
+      @enumsAccordianItem(sdkDocument.Enums)
+      @errorsAccordianItem(sdkDocument.Errors)
+  </div>
+}

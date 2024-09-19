@@ -1,0 +1,41 @@
+package templates
+
+import (
+    "github.com/shariqtorres/opensdk-server/types"
+)
+
+func generateFunctionURL(name string) string {
+    return "./function_" + name + ".html"
+}
+
+templ functionsAccordianItem(functions []types.Function) {
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree"> 
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Functions
+        </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+
+        <div class="accordion-body">
+            <div class="grid">
+                <div class="row">
+                    <div class="col">
+                        <h5><a name="Functions">Functions</a></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4"> 
+                        <dl>
+                        for _, function := range functions {
+                            <dt><a href={ templ.URL(generateFunctionURL(function.Name))}>{ function.Name }</a></dt>
+                            <dd>{ function.Description }</dd>
+                        }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

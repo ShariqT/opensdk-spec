@@ -6,7 +6,7 @@ import(
 )
 func processRawEnums(data interface{}) []map[string]interface{} {
 	results := make([]map[string]interface{},0)
-	properties := []string{"type", "values"}
+	properties := []string{"type", "values", "description"}
 	for _, value := range data.([]interface{}) {
 		structuredEnumMap := make(map[string]interface{})
 		for key, value := range value.(map[string]interface{}) {

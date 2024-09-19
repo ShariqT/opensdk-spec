@@ -6,7 +6,7 @@ import(
 
 func processRawConstants(data interface{}) []map[string]interface{} {
 	results := make([]map[string]interface{},0)
-	properties := []string{"type", "value", "namespace"}
+	properties := []string{"type", "value", "namespace", "description"}
 	for _, value := range data.([]interface{}) {
 		structuredConstantMap := make(map[string]interface{})
 		for key, value := range value.(map[string]interface{}) {

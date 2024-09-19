@@ -2,14 +2,15 @@ package cmd
 
 import(
 	"fmt"
-	"encoding/json"
+	// "encoding/json"
 	"os"
 	"github.com/spf13/cobra"
-
+	"context"
 	"github.com/mitchellh/mapstructure"
 	"gopkg.in/yaml.v3"
 	"github.com/shariqtorres/opensdk-server/types"
 	"github.com/shariqtorres/opensdk-server/utils"
+	"github.com/shariqtorres/opensdk-server/templates"
 
 )
 
@@ -37,8 +38,22 @@ var generateCmd = &cobra.Command{
 			fmt.Println("mapstructure.Decode failed:", err)
 			return
 		}
-		s, _ := json.MarshalIndent(sdkDocument, "", "  ")
-		fmt.Print(string(s))
+		// s, _ := json.MarshalIndent(sdkDocument, "", "  ")
+		// fmt.Print(string(s))
 		// fmt.Printf("%+v\n", sdkDocument)
+		os.Mkdir("docs", 0755)
+		fp, err := os.Create("docs/index.html")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		component := templates.IndexPage(sdkDocument)
+		
+		err = templates.Page(component).Render(context.Background(), fp) 
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println("Generrated docs/index.html")
 	},
 }
