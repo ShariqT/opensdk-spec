@@ -2,11 +2,10 @@ package templates
 
 import (
     "github.com/shariqtorres/opensdk-server/types"
+    "github.com/shariqtorres/opensdk-server/utils"
 )
 
-func generateFunctionURL(name string) string {
-    return "./function_" + name + ".html"
-}
+
 
 templ functionsAccordianItem(functions []types.Function) {
 <div class="accordion-item">
@@ -28,7 +27,7 @@ templ functionsAccordianItem(functions []types.Function) {
                     <div class="col-4"> 
                         <dl>
                         for _, function := range functions {
-                            <dt><a href={ templ.URL(generateFunctionURL(function.Name))}>{ function.Name }</a></dt>
+                            <dt><a href={ templ.URL(utils.GenerateFunctionURL(function.Name))}>{ function.Name }</a></dt>
                             <dd>{ function.Description }</dd>
                         }
                         </dl>

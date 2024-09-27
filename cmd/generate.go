@@ -38,9 +38,7 @@ var generateCmd = &cobra.Command{
 			fmt.Println("mapstructure.Decode failed:", err)
 			return
 		}
-		// s, _ := json.MarshalIndent(sdkDocument, "", "  ")
-		// fmt.Print(string(s))
-		// fmt.Printf("%+v\n", sdkDocument)
+		
 		os.Mkdir("docs", 0755)
 		fp, err := os.Create("docs/index.html")
 		if err != nil {
@@ -48,12 +46,60 @@ var generateCmd = &cobra.Command{
 			return
 		}
 		component := templates.IndexPage(sdkDocument)
-		
 		err = templates.Page(component).Render(context.Background(), fp) 
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 		fmt.Println("Generrated docs/index.html")
+		if len(sdkDocument.Classes) > 0 {
+			for _, classInfo := range sdkDocument.Classes {
+				contentComponent := templates.ClassPageContent(classInfo)
+				fp, err = os.Create("docs/class_" + classInfo.Name + ".html")
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to create file for class: " + classInfo.Name)
+				}
+				err = templates.Page(contentComponent).Render(context.Background(), fp)
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to render class: " + classInfo.Name)
+					return
+				}
+			}
+		}
+		if len(sdkDocument.Interfaces) > 0 {
+			for _, interfaceInfo := range sdkDocument.Interfaces {
+				contentComponent := templates.InterfacePageContent(interfaceInfo)
+				fp, err = os.Create("docs/interface_" + interfaceInfo.Name + ".html")
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to create file for interface: " + interfaceInfo.Name)
+				}
+				err = templates.Page(contentComponent).Render(context.Background(), fp)
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to render interface: " + interfaceInfo.Name)	
+					return
+				}
+			}
+		}
+		if len(sdkDocument.Functions) > 0 {
+			for _, functionInfo := range sdkDocument.Functions {
+				contentComponent := templates.FunctionPageContent(functionInfo)
+				fp, err = os.Create("docs/function_" + functionInfo.Name + ".html")
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to create file for function: " + functionInfo.Name)
+				}
+				err = templates.Page(contentComponent).Render(context.Background(), fp)
+				if err != nil {
+					fmt.Println(err)
+					fmt.Println("Failed to render function: " + functionInfo.Name)
+					return
+				}
+			}
+		}
+		
 	},
 }

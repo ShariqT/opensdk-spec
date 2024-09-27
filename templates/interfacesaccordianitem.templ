@@ -1,10 +1,11 @@
 package templates
 
-import "github.com/shariqtorres/opensdk-server/types"
+import (
+    "github.com/shariqtorres/opensdk-server/types"
+    "github.com/shariqtorres/opensdk-server/utils"
+)
 
-func generateInterfaceURL(name string) string {
-    return "./interface_" + name + ".html"
-}
+
 
 templ interfacesAccordianItem(interfaces []types.Interface) {
 <div class="accordion-item">
@@ -26,7 +27,7 @@ templ interfacesAccordianItem(interfaces []types.Interface) {
                     <div class="col-4">
                     <dl>
                     for _, iface := range interfaces {
-                        <dt><a href={ templ.URL(generateInterfaceURL(iface.Name)) }>{ iface.Name }</a></dt>
+                        <dt><a href={ templ.URL(utils.GenerateInterfaceURL(iface.Name)) }>{ iface.Name }</a></dt>
                         <dd>{ iface.Description }</dd>
                     }
                     </dl>

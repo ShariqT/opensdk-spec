@@ -1,0 +1,82 @@
+package templates
+
+import (
+  "github.com/shariqtorres/opensdk-server/types"
+  "github.com/shariqtorres/opensdk-server/utils"
+)
+
+
+templ ClassPageContent(selectedClass types.Class) {
+    <div class="grid">
+        <div class="row">
+            <div class="col">
+                <h1>{ selectedClass.Name }</h1>
+                <p>{ selectedClass.Description }</p>
+            </div>
+        </div>
+        <div class="row">
+            if selectedClass.Namespace != ""{
+                <div class="col-3">
+                    [ { selectedClass.Namespace } ]
+                </div>
+            }
+            if len(selectedClass.Inherits) != 0 {
+                for _, baseClass := range selectedClass.Inherits {
+                    <div class="col-3">
+                        Inherits: <a href={ templ.URL(utils.GenerateClassURL(baseClass)) }>{ baseClass }</a>
+                    </div>
+                }
+            }
+            if len(selectedClass.Implements) != 0 {
+                for _, interfaceName := range selectedClass.Implements {
+                    <div class="col-3">
+                        Implements: <a href={ templ.URL(utils.GenerateInterfaceURL(interfaceName)) }>{ interfaceName }</a>
+                    </div>
+                }
+            }
+        </div>
+        <div class="row">
+            <h5 class="mt-3 mb-3"><a name="Properties">Properties</a></h5>
+            for _, prop := range selectedClass.Properties {
+                <p><strong>{ prop.Name }: { prop.Type }</strong></p>
+                <p>{ prop.Description }</p>
+            }
+        </div>
+        <div class="row">
+            <h5 class="mt-3 mb-3"><a name="Methods">Methods</a></h5>
+            for _, method := range selectedClass.Methods {
+                <p><strong>{ method.Name }</strong></p>
+                <p>{ method.Description }</p>
+                <div class="row">
+                    <div class="col-4">
+                        <h6>Parameters</h6>
+                        <dl>
+                            for _, param := range method.Params {
+                                <dt>{ param.Name }: { param.Type }</dt>
+                                <dd>{ param.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Returns</h6>
+                        <dl>
+                            for _, ret := range method.Returns {
+                                <dt>{ ret.Type }</dt>
+                                <dd>{ ret.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Exceptions/Errors</h6>
+                        <p>
+                            for _, exception := range method.OnFailure {
+                                <a href={ templ.URL(utils.GenerateExceptionURL(exception)) }>{ exception }</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <p></p>
+            }
+        </div>
+    </div>
+}

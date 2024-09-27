@@ -2,11 +2,10 @@ package templates
 
 import (
   "github.com/shariqtorres/opensdk-server/types"
+  "github.com/shariqtorres/opensdk-server/utils"
 )
 
-func generateClassURL(name string) string {
-    return "./class_" + name + ".html"
-}
+
 templ classAccordianItem(classes []types.Class) {
 <div class="accordion-item">
     <h2 class="accordion-header" id="headingTwo"> 
@@ -27,7 +26,7 @@ templ classAccordianItem(classes []types.Class) {
                     <div class="row">
                         <div class="col-4"> 
                             <dl>
-                                <dt><a href={ templ.URL(generateClassURL(class.Name)) }>{ class.Name }</a></dt>
+                                <dt><a href={ templ.URL(utils.GenerateClassURL(class.Name)) }>{ class.Name }</a></dt>
                                 <dd>{ class.Description }</dd>
                             </dl>
                         </div>

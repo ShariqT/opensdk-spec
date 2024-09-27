@@ -1,0 +1,48 @@
+package templates
+
+import (
+  "github.com/shariqtorres/opensdk-server/types"
+  "github.com/shariqtorres/opensdk-server/utils"
+)
+
+templ FunctionPageContent(selectedFunction types.Function) {
+    <div class="grid">
+        <div class="row">
+            <div class="col">
+                <h1>{ selectedFunction.Name }</h1>
+                <p>{ selectedFunction.Description }</p>
+            </div>
+        </div>
+        <div class="row">
+                
+                <div class="row">
+                    <div class="col-4">
+                        <h6>Parameters</h6>
+                        <dl>
+                            for _, param := range selectedFunction.Params {
+                                <dt>{ param.Name }: { param.Type }</dt>
+                                <dd>{ param.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Returns</h6>
+                        <dl>
+                            for _, ret := range selectedFunction.Returns {
+                                <dt>{ ret.Type }</dt>
+                                <dd>{ ret.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Exceptions/Errors</h6>
+                        <p>
+                            for _, exception := range selectedFunction.OnFailure {
+                                <a href={ templ.URL(utils.GenerateExceptionURL(exception)) }>{ exception }</a>
+                            }
+                        </p>
+                    </div>
+            </div>
+        </div>
+    </div>
+}

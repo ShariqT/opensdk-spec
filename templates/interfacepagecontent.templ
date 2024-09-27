@@ -1,0 +1,61 @@
+package templates
+
+import (
+  "github.com/shariqtorres/opensdk-server/types"
+)
+
+
+
+templ InterfacePageContent(selectedInterface types.Interface) {
+    <div class="grid">
+        <div class="row">
+            <div class="col">
+                <h1>{ selectedInterface.Name }</h1>
+                <p>{ selectedInterface.Description }</p>
+            </div>
+        </div>
+        if selectedInterface.Namespace != "" {
+            <div class="row">
+                <div class="col-3">
+                    [ { selectedInterface.Namespace } ]
+                </div>
+            </div>
+        }
+        <div class="row">
+            <h5 class="mt-3 mb-3"><a name="Methods">Methods</a></h5>
+            for _, method := range selectedInterface.Methods {
+                <p><strong>{ method.Name }</strong></p>
+                <p>{ method.Description }</p>
+                <div class="row">
+                    <div class="col-4">
+                        <h6>Parameters</h6>
+                        <dl>
+                            for _, param := range method.Params {
+                                <dt>{ param.Name }: { param.Type }</dt>
+                                <dd>{ param.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Returns</h6>
+                        <dl>
+                            for _, ret := range method.Returns {
+                                <dt>{ ret.Type }</dt>
+                                <dd>{ ret.Description }</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="col-4">
+                        <h6>Exceptions/Errors</h6>
+                        <p>
+                            for _, excep := range method.OnFailure {
+                                <a href="./index.html#Exceptions">{ excep }</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <p></p>
+            }
+        </div>
+    </div>
+}
