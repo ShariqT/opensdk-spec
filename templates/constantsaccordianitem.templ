@@ -25,7 +25,7 @@ templ constantsAccordianItem(constants []types.ConstantVar) {
                         
                         for _, constant := range constants {
                             <dl>
-                            <dt>{ constant.Name }</dt>
+                            <dt>{ constant.Name } - { constant.Type}: { constant.Value }</dt>
                             <dd>{ constant.Description }</dd>
                              </dl>
                         }
