@@ -1,105 +1,57 @@
-version:"0.0.1"
-name: "My SDK"
-constants:
-  - CENTS_TO_DOLLAR:
-    type: int
-    value: 100
-    namespace: mysdk.constants
-  - EXCHANGE_RATE:
-    type: "float"
-    value: 0.001
-    namespace: mysdk.constants
-  - CURRENCY:
-    type: "str"
-    value: "USD"
-    namespace: mysdk.constants
+# Note that anytime you see a reference to an object, it is defined in the same file
+# e.g. a reference to a class is defined in the classes section
+# a reference to an interface is defined in the interfaces section
+# a reference to an error is defined in the errors section
 
+# Anytime you see [] it means that the object can be repeated
+version: string, e.g. "0.0.1"
+name: string, e.g. "My SDK"
+description: string, e.g. "My SDK description"  
+constants:
+  - CONSTANT_NAME:
+    description: string, e.g. "My constant description"
+    type: ("int" | "float" | "string" | "bool")
+    value: any value that corresponds to the type
+    namespace: string, e.g. "my.example.namespace"
 enums:
-  - EXCHANGE_RATE_TYPE:
-    type: str
-    values: [{ name: "DOLLARS", value: "$"},
-             { name: "CENTS", value: "¢"}]
+  - ENUM_NAME:
+    description: string, e.g. "My enum description"
+    type: ("int" | "float" | "string" | "bool")
+    values: [{ name: string, value: any value that corresponds to the type }]
 functions:
-  - getExchangeRate:
-    description: "Get the exchange rate between two currencies"
-    namespace: mysdk.functions.exchange
-    params:
-      - type: "str"
-        name: "currency"
-        description: "The currency to convert from"
-      - type: "str"
-        name: "toCurrency"
-        description: "The currency to convert to"
-      - type: "int"
-        name: "amount"
-        description: "The amount to convert"
-    returns:
-      - type: "float"
-        description: "The converted amount"
-    onfailure: ["errors#RateBookDoesNotExist"]
-  - convertDollarsToCents:
-    description: "Convert dollars to cents"
-    namespace: mysdk.functions.exchange.utils
-    params:
-      - type: "float"
-        name: "dollars"
-        description: "The dollars to convert"
-    returns:
-      - type: "int"
-        description: "The cents"
+  - FUNCTION_NAME:
+    description: string, e.g. "My function description"
+    namespace: string, e.g. "my.example.namespace"
+    params: [{ type: ("int" | "float" | "string" | "bool"), name: string, description: string }]
+    returns: [{ type: ("int" | "float" | "string" | "bool"), description: string }]
+    onfailure: [reference to error, e.g. "errors#ExceptionName"] # Exceptions are defined in the errors section
 classes:
-  - RateBook:
-    description: "A book of exchange rates"
-    namespace: mysdk.classes.rates
-    implements: ["interfaces#IRateBook"],
-    inherits: ["classes#Base"],
-    properties:
-      - type: "str"
-        name: "currency"
-        description: "The currency"
-      - type: "float"
-        name: "rate"
-        description: "The rate"
+  - CLASS_NAME:
+    description: string, e.g. "My class description"
+    namespace: string, e.g. "my.example.namespace"
+    implements: [reference to interface, e.g. "intefaces#InterfaceName"] # Interfaces are defined in the interfaces section
+    inherits: [reference to class, e.g. "classes#ClassName"] # Classes are defined in the classes section
+    properties: [{ type: ("int" | "float" | "string" | "bool"), name: string, description: string }]
     methods:
-      - getRate:
-        description: "Get the rate"
-        params:
-          - type: "str"
-            name: "currency"
-            description: "The currency to get the rate for"
-        returns:
-          - type: "float"
-            description: "The rate"
-      - getCurrencyType:
-        description: Gets the type of the currency
-        params:
-          - type: "str"
-            name: "currency"
-            description: "The currency to set the rate for"
-        returns:
-          - link: "enums#EXCHANGE_RATE_TYPE"
-  - Base:
-    description: "Base class for all classes"
-    namespace: mysdk.classes.base
-    properties:
-      - type: "str"
-        name: "name"
-        description: "The name of the class"
-interfaces:
-  - IRateBook:
-    description: "Interface for rate books"
-    namespace: mysdk.interfaces.rates
+      - METHOD_NAME:
+        description: string, e.g. "My method description"
+        namespace: string, e.g. "my.example.namespace"
+        params: [{ type: ("int" | "float" | "string" | "bool"), name: string, description: string }]
+        returns: [{ type: ("int" | "float" | "string" | "bool"), description: string }]
+        onfailure: [reference to error, e.g. "errors#ExceptionName"] # Exceptions are defined in the errors section
+intefaces:
+  - INTERFACE_NAME:
+    description: string, e.g. "My interface description"
+    namespace: string, e.g. "my.example.namespace"
     methods:
-      - getRate:
-        description: "Get the rate"
-        params:
-          - type: "str"
-            name: "currency"
-            description: "The currency to get the rate for"
-        returns:
-          - type: "float"
+      - METHOD_NAME:
+        description: string, e.g. "My method description"
+        namespace: string, e.g. "my.example.namespace"
+        params: [{ type: ("int" | "float" | "string" | "bool"), name: string, description: string }]
+        returns: [{ type: ("int" | "float" | "string" | "bool"), description: string }]
+        onfailure: [reference to error, e.g. "errors#ExceptionName"] # Exceptions are defined in the errors section
 errors:
-  - RateBookDoesNotExist:
-    description: "The rate book does not exist"
-    namespace: mysdk.errors.rates
-    message: "The rate book does not exist"
+  - ERROR_NAME:
+    description: string, e.g. "My error description"
+    namespace: string, e.g. "my.example.namespace"
+    message: string, e.g. "My error message"  

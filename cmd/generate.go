@@ -2,7 +2,6 @@ package cmd
 
 import(
 	"fmt"
-	// "encoding/json"
 	"os"
 	"github.com/spf13/cobra"
 	"context"
@@ -18,10 +17,11 @@ var sdkDocument types.SDKDocument
 var raw interface{}
 
 var generateCmd = &cobra.Command{
-	Use: "generate",
-	Short: "Generate OpenSDK Server",
+	Use: "generate [path to OpenSDK yaml file]",
+	Short: "Generate OpenSDK Documentation",
+	Long: "Generate OpenSDK Documentation in a directory called 'docs' in the current folder. Requires the path to an OpenSDK yaml file.",
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Generate OpenSDK Server")
 		filename := args[0]
 		f, err := os.ReadFile(filename)
 		if err != nil {
@@ -51,7 +51,7 @@ var generateCmd = &cobra.Command{
 			fmt.Println(err)
 			return
 		}
-		fmt.Println("Generrated docs/index.html")
+		fmt.Println("Generated docs/index.html")
 		if len(sdkDocument.Classes) > 0 {
 			for _, classInfo := range sdkDocument.Classes {
 				contentComponent := templates.ClassPageContent(classInfo)
