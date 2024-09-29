@@ -15,7 +15,7 @@ The first group are teams of engineers who are tasked with either creating libra
 This is a tool for engineers that are working on SDKs that do a lot of client side processing. OpenAPI shines when it is describing a RESTful API endpoint. OpenSDK allows engineers to document libraries and SDKs that are more than just wrappers for RESTful endpoints. If your library or SDK does heavy client-side processing, then this is for you. 
 
 ## Usage
-OpenSDK is a CLI that has one command: generate. This command takes the path (full or relative) to an OpenSDK yaml file. You can see an example of the OpenSDK spec here. 
+OpenSDK is a CLI that has one command: generate. This command takes the path (full or relative) to an OpenSDK yaml file. You can see [an example of the OpenSDK spec here](https://github.com/ShariqT/opensdk-spec/blob/main/spec.yaml). 
  
 
 ## Contributing
