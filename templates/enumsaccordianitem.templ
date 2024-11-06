@@ -28,6 +28,13 @@ templ enumsAccordianItem(enums []types.Enum) {
                                 <dd>{ enum.Description }</dd>
                             </dl>
                         </div>
+                        <div class="col-8">
+                            <ul>
+                                for _, value := range enum.Values {
+                                    <li>{ value.Name }: { value.Value }</li>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 }
             </div>

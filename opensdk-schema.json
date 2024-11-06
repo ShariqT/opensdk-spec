@@ -1,0 +1,248 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "http://www.github.com/ShariqT/opensdk-spec/opensdk-schema.json",
+    "title": "OpenSDK Schema",
+    "description": "OpenSDK Schema for validating OpenSDK files",
+    "$defs": {
+        "InterfaceSchema": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "methods": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/FunctionSchema"
+                    }
+                }
+            }
+        },
+        "ClassSchema": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "implements": {
+                    "type": "array",
+                    "pattern": "^interface#.*"
+                },
+                "inherits": {
+                    "type": "array",
+                    "pattern": "^classes#.*"
+                },
+                "classProperties": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/FunctionParamSchema"
+                    }
+                },
+                "methods": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/FunctionSchema"
+                    }
+                }
+            }
+        },
+        "ErrorSchema": {
+            "type": "string",
+            "pattern": "^errors#.*"
+        },
+        "FunctionSchema": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "params": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/FunctionParamSchema"
+                    }
+                },
+                "returns": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/FunctionReturnSchema"
+                    }
+                },
+                "onfailure": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/ErrorSchema"
+                    }
+                }
+            },
+            "required": ["name", "description"],
+            "dependentRequired": {
+                "params": ["returns"]
+            }  
+        },
+        "FunctionParamSchema": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "datatype": {
+                    "enum": ["string", "int", "float", "boolean", "array"]
+                }
+            },
+            "required": ["name", "datatype"]
+        },
+        "FunctionReturnSchema": {
+            "type": "object",
+            "properties": {
+                "datatype": {
+                    "enum": ["string", "int", "float", "boolean", "array", "void"]
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "required": ["datatype"],
+            "if": { "properties": {"type": { "enum": ["string", "int", "float", "boolean", "array"]}}},
+            "then": { "required": ["description"] }
+        },
+        "EnumValue": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": ["name", "value"]
+        },
+        "ConstantSchema":{
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "datatype":{
+                    "enum": ["string", "int", "float", "boolean"]
+                },
+                "value": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                }
+            },
+            "required": ["name", "datatype", "value"]
+        },
+        "EnumSchema": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type":"string"                    
+                },
+                "description": {
+                    "type": "string"
+                },
+                "datatype": {
+                    "enum": ["int", "float", "string", "boolean"]
+                },
+                "enumValues": {
+                    "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/EnumValue"
+                    }
+                }
+            },
+            "required": ["name", "datatype", "enumValues"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "constants": {
+            "type": "array",
+            "contains": {
+                "$ref": "#/$defs/ConstantSchema"
+            }
+        },
+        "enums": {
+            "type": "array",            
+            "contains": {
+                "$ref": "#/$defs/EnumSchema"
+            }       
+        },
+        "functions": {
+            "type": "array",
+            "contains": {
+                "$ref": "#/$defs/FunctionSchema"
+            }
+        },
+        "classes": {
+            "type": "array",
+            "contains": {
+                "$ref": "#/$defs/ClassSchema"
+            }
+        },
+        "interfaces": {
+            "type": "array",
+            "contains": {
+                "$ref": "#/$defs/InterfaceSchema"
+            }
+        },
+        "errors": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "namespace": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["name", "message"]
+        }
+    }
+}

@@ -2,14 +2,14 @@ package types
 
 
 type FuncParam struct {
-	Type string
-	Name string
-	Description string
+	Type string `mapstructure:"datatype"`
+	Name string `mapstructure:"name"`
+	Description string `mapstructure:"description"`
 }
 
 type FuncReturn struct {
-	Type string
-	Description string
+	Type string `mapstructure:"datatype"`
+	Description string `mapstructure:"description"`
 }
 
 
