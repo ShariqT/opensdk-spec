@@ -34,16 +34,13 @@ var generateCmd = &cobra.Command{
 		if err := yaml.Unmarshal(f, &raw); err != nil {
 			fmt.Println("yaml.Unmarshal failed:", err)
 			return
-		}
-		// structuredYamlMap := utils.UnwrapRawYAML(raw)
-		
+		}		
 		compiler := jsonschema.NewCompiler()
 		schemaData, err := compiler.GetSchema("http://www.github.com/ShariqT/opensdk-spec/opensdk-schema.json")
 		if err != nil {
 			fmt.Println("Error reading schema file:", err)
 			return
 		}
-		// schemaData, err := compiler.Compile(schemaFile)
 		if err != nil {
 			fmt.Println("Error compiling schema:", err)
 			return
