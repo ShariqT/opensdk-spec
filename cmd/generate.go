@@ -36,7 +36,7 @@ var generateCmd = &cobra.Command{
 			return
 		}		
 		compiler := jsonschema.NewCompiler()
-		schemaData, err := compiler.GetSchema("http://www.github.com/ShariqT/opensdk-spec/opensdk-schema.json")
+		schemaData, err := compiler.GetSchema("https://raw.githubusercontent.com/ShariqT/opensdk-spec/refs/heads/main/opensdk-schema.json")
 		if err != nil {
 			fmt.Println("Error reading schema file:", err)
 			return
