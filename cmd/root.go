@@ -9,7 +9,7 @@ var rootCmd = &cobra.Command{
 	Short: "OpenSDK Generator",
 	Long: "OpenSDK Generator builds documentation form an OpenSDK specification file",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("OpenSDK Server v0.1.0")
+		fmt.Println("OpenSDK Server v0.2.0")
 	},
 }
 

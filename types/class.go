@@ -11,7 +11,7 @@ type Class struct {
 }
 
 type Property struct {
-	Type string `mapstructure:"type"`
+	Type string `mapstructure:"datatype"`
 	Name string `mapstructure:"name"`
 	Description string `mapstructure:"description"`
 }

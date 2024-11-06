@@ -3,12 +3,15 @@ package cmd
 import(
 	"fmt"
 	"os"
+	"encoding/json"
 	"github.com/spf13/cobra"
 	"context"
+	_ "embed"
 	"github.com/mitchellh/mapstructure"
 	"gopkg.in/yaml.v3"
+	"github.com/kaptinlin/jsonschema"
 	"github.com/shariqtorres/opensdk-server/types"
-	"github.com/shariqtorres/opensdk-server/utils"
+	// "github.com/shariqtorres/opensdk-server/utils"
 	"github.com/shariqtorres/opensdk-server/templates"
 
 )
@@ -21,7 +24,7 @@ var generateCmd = &cobra.Command{
 	Short: "Generate OpenSDK Documentation",
 	Long: "Generate OpenSDK Documentation in a directory called 'docs' in the current folder. Requires the path to an OpenSDK yaml file.",
 	Args: cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, args []string) { 
 		filename := args[0]
 		f, err := os.ReadFile(filename)
 		if err != nil {
@@ -32,9 +35,28 @@ var generateCmd = &cobra.Command{
 			fmt.Println("yaml.Unmarshal failed:", err)
 			return
 		}
-		structuredYamlMap := utils.UnwrapRawYAML(raw)
+		// structuredYamlMap := utils.UnwrapRawYAML(raw)
+		
+		compiler := jsonschema.NewCompiler()
+		schemaData, err := compiler.GetSchema("http://www.github.com/ShariqT/opensdk-spec/opensdk-schema.json")
+		if err != nil {
+			fmt.Println("Error reading schema file:", err)
+			return
+		}
+		// schemaData, err := compiler.Compile(schemaFile)
+		if err != nil {
+			fmt.Println("Error compiling schema:", err)
+			return
+		}
+		result := schemaData.Validate(raw)
+		
+		if !result.IsValid() {
+			details, _ := json.MarshalIndent(result.ToList(), "", "  ")
+			fmt.Println(string(details))
+			return
+		}
 		decoder, _ := mapstructure.NewDecoder(&mapstructure.DecoderConfig{WeaklyTypedInput: true, Result: &sdkDocument})
-		if err := decoder.Decode(structuredYamlMap); err != nil {
+		if err := decoder.Decode(raw); err != nil {
 			fmt.Println("mapstructure.Decode failed:", err)
 			return
 		}
